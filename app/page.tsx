@@ -1,5 +1,3 @@
-"use client";
-
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -8,23 +6,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import React, { useEffect, useState } from "react";
 
-export default function HomePage() {
-  const [recipes, setRecipes] = useState([]);
+const getRecipes = async () => {
+  const response = await fetch("https://dummyjson.com/recipes");
+  const data = await response.json();
+  return data.recipes;
+};
 
-  useEffect(() => {
-    const getRecipes = async () => {
-      const response = await fetch("https://dummyjson.com/recipes");
-      const data = await response.json();
-      if (data) {
-        console.log({data});
-        setRecipes(data.recipes);
-      }
-    };
-
-    getRecipes();
-  }, []);
+export default async function HomePage() {
+  const recipes = await getRecipes();
 
   const cuisines: Array<string> = [
     "All",
